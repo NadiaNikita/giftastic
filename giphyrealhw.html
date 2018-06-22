@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Giftastic</title>
+
+  <style type="text/css">
+    button,
+    div,
+    form,
+    input {
+      margin: 10px;
+    };
+    </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+
+<body>
+  <div class="container">
+    
+    
+    <h1> Travel Giphy Underwold</h1>
+
+  
+  <div id="places-view"></div>
+
+  <div id="buttons-view"></div>
+
+  
+<!-- ===================================================== -->
+
+
+    <form id="gif-image">
+      <label for="place-input">Traveling to? </label>
+      <input type="text" id="place-input"><br>
+
+      <input id="find-place" type="submit" value="Search for place">
+    </form>
+
+    
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+  // ==============================================================================>
+
+    var places = ["London","Bali","New York","Tokyo"];
+    
+    function displayPlacePicture() {
+
+
+        var place = $(this).attr("place-name");
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + place + "&api_key=m9FcxGkUm3zmsnt3vEKTbzIN37mrNONj";
+        console.log(queryURL);
+
+        
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).then(function(response) {
+          $("#places-view").text(JSON.stringify(response));
+        renderButtons();
+        });
+      }
+
+
+    // //console.log(this);
+
+    // function alertPlaceName() {
+    //     var placeName = $(this).attr("place-name");
+
+    //     alert(placeName);
+    //   }
+
+
+      // function displayPlacePicture() {
+
+      // }
+
+
+      function renderButtons() {
+
+      $("#buttons-view").empty();
+
+       for (var i = 0; i < places.length; i++) {
+
+         var a = $("<button>");
+         a.addClass("place");
+         a.attr("place-name", places[i]);
+         a.text(places[i]);
+         $("#buttons-view").append(a);
+        }
+      }
+
+        // ========================================================================
+
+
+
+  
+      $("#find-place").on("click", function(event) {
+          //$("#place-view").load(queryURL)
+        
+        
+        event.preventDefault();
+
+        
+        var place = $("#place-input").val().trim();
+
+
+        places.push(place);
+        console.log(place);
+
+        renderButtons();
+      });
+
+        $(document).on("click", ".place", displayPlacePicture);
+
+        //$(document).on("click", ".place", alertPlaceName);
+
+
+
+//============================================
+
+        
+       
+
+        //var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + place + "&api_key=m9FcxGkUm3zmsnt3vEKTbzIN37mrNONj";
+
+        //console.log(queryURL);
+
+      
+        // $.ajax({
+        //   url: queryURL,
+        //   method: "GET"
+        // }).then(function(response) {
+        //   $("#place-view").text(JSON.stringify(response));
+
+        //   renderButtons();
+        // });
+
+       renderButtons();
+    </script>
+  </div>
+</body>
+
+</html>
+
